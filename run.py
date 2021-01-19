@@ -42,8 +42,11 @@ class PointsBot:
         for i in range(0,35):
             wait()
             bot.find_element_by_id('sb_form_q').send_keys((backspace * 14) + random_string(14) + enter)
-        sleep(60)
 
+    def dailySet(self):
+        pass
+
+        
 def main():
     alfred = PointsBot()
     alfred.pcSearchPoints()
