@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver import ChromeOptions
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from time import sleep
 from stringgenerator import random_string
@@ -19,29 +18,39 @@ def get_credentials():
 class PointsBot:
 
     def __init__(self):
-        self.bot = webdriver.Edge(EdgeChromiumDriverManager().install())
         self.email, self.password = get_credentials()
+        self.bot = webdriver.Edge(EdgeChromiumDriverManager().install())
+
+        # Login
+        self.bot.get('https://login.live.com/login.srf')
+        wait()
+        self.bot.find_element_by_id('i0116').send_keys(self.email + enter)
+        wait()
+        self.bot.find_element_by_id('i0118').send_keys(self.password + enter)
+        wait()
+
+        # Set points
+        self.bot.get('https://account.microsoft.com/rewards/')
+        self.points = self.bot.find_element_by_xpath('//*[@id="userBanner"]/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span').text
+
+    def updatePoints(self):
+        self.bot.get('https://account.microsoft.com/rewards/')
+        self.points = self.bot.find_element_by_xpath('//*[@id="userBanner"]/mee-banner/div/div/div/div[2]/div[1]/mee-banner-slot-2/mee-rewards-user-status-item/mee-rewards-user-status-balance/div/div/div/div/div/p[1]/mee-rewards-counter-animation/span').text
+        return self.points
 
     def pcSearchPoints(self):
-        bot = self.bot
-        login_url = 'https://login.live.com/login.srf'
-        search_url = 'https://www.bing.com/'
-        bot.get(login_url)
-        wait()
-        bot.find_element_by_id('i0116').send_keys(self.email + enter)
-        wait()
-        bot.find_element_by_id('i0118').send_keys(self.password)
-        wait()
-        bot.find_element_by_id('idChkBx_PWD_KMSI0Pwd').click()
-        wait()
-        bot.find_element_by_id('idSIButton9').click()
-        wait()
-        bot.get(search_url)
-        wait()
-        bot.find_element_by_id('id_s').click()
-        for i in range(0,35):
+        previous_points = -1
+        current_points = self.points
+        while previous_points != current_points:
+            self.bot.get('https://www.bing.com/')
             wait()
-            bot.find_element_by_id('sb_form_q').send_keys((backspace * 14) + random_string(14) + enter)
+            print(current_points)
+            previous_points = current_points
+            active = self.bot.find_element_by_id('id_s').get_attribute('aria-hidden')
+            if not active:
+                self.bot.find_element_by_id('id_s').click()
+            self.bot.find_element_by_id('sb_form_q').send_keys((backspace * 14) + random_string(14) + enter)
+            current_points = self.updatePoints()
 
     def dailySet(self):
         pass
