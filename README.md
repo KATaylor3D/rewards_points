@@ -11,4 +11,4 @@ A web automation program that does the max amount of searches for bing to get po
 ## Future
 * To add a Daily Set method
 ## Goal
-* To add enough methods to make 8,500 points a month to pay for an xbox gold subscription
+* To add enough methods to make 8,500 points a month
