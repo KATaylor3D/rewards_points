@@ -1,3 +1,4 @@
+*Currently not working with new 2 step authentication.* **Coming soon to a GITHUB near you**
 # rewards_points
 A web automation program that does the max amount of searches for bing to get points for free stuff
 ## Setup
