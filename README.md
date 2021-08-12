@@ -10,6 +10,6 @@ A web automation program that does the max amount of searches for bing to get po
 * From your favorite command line bash terminal change to the directory
 * Run with 'python3 run.py
 ## Future
-* To add a Daily Set method
+* To add new 2 step authentication
 ## Goal
 * To add enough methods to make 8,500 points a month
